@@ -17,7 +17,7 @@ namespace os_sim {
 		int pid{};
 		PCBState processState{ PCBState::New };
 		// -- SJF Related
-		float estimatedBurstTime_s{ 10.0f };
+		float estimatedBurstTime_s{ 5.0f };
 		float lastBurstTime_s{};
 		float alpha{ 0.5f };
 

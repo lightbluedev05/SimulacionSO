@@ -23,7 +23,7 @@ void IScheduler::selectProcess(std::list<os_sim::PCB>& pcbQueue) {
     g_PCBCurrentlyRunning = pcbQueue.front();
     pcbQueue.pop_front();
     g_PCBCurrentlyRunning.processState = os_sim::PCBState::Running;
-    g_PCBCurrentlyRunning.cpuBurstClock.restart();
+    //g_PCBCurrentlyRunning.cpuBurstClock.restart();
 
     g_isRunningProcess = true;
     if (g_PCBCurrentlyRunning.responseTime == sf::Time::Zero) g_PCBCurrentlyRunning.responseTime = g_PCBCurrentlyRunning.processClock.restart();	// Response Time

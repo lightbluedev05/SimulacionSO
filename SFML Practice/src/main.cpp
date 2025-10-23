@@ -48,7 +48,7 @@ int main()
 {
     using os_sim::global::g_currentAlgorithm;
     using os_sim::global::g_scheduler;
-    g_currentAlgorithm = os_sim::Algorithm::FCFS;
+    g_currentAlgorithm = os_sim::Algorithm::RoundRobin;
     switch (g_currentAlgorithm) {
     case os_sim::Algorithm::FCFS:
         g_scheduler = std::make_unique<FCFSScheduler>();

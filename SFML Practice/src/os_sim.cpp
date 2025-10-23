@@ -18,7 +18,7 @@ namespace os_sim {
 		std::vector<PCB> g_pcbWaitLine{};
 		Algorithm g_currentAlgorithm{};
 		sf::Clock g_CPUBurstClock{};
-		sf::Time g_rrTimeQuantum{ sf::milliseconds(200) };
+		sf::Time g_rrTimeQuantum{ sf::milliseconds(500) };
 
 		std::unique_ptr<IScheduler> g_scheduler{ nullptr };
 		int g_finishedProcesses{ 0 };
@@ -36,6 +36,7 @@ void os_sim::createPCB(std::queue<int> cpuBurst, std::queue<int> ioBurst, std::l
 	newPCB.ioBurstSim = ioBurst;
 	newPCB.processClock.restart();
 	newPCB.ioBurstClock.reset();
+	newPCB.cpuBurstClock.reset();
 
 	// Return Block
 	os_sim::global::g_scheduler->returnToQueue(newPCB, pcbQueue);

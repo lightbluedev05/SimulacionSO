@@ -33,7 +33,7 @@ void FCFSScheduler::onProcessExecution(os_sim::PCB& process, [[maybe_unused]] st
 #ifdef OS_DEBUG
 		std::cout << "\n [PROCESS " << process.pid << "]\tHalted, waiting for IO.";
 #endif // !OS_DEBUG
-		//returnToQueue(pcbQueue);
+
 		process.ioBurstClock.restart();
 		g_pcbWaitLine.push_back(process);
 		g_isRunningProcess = false;

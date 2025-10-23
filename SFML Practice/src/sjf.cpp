@@ -12,7 +12,7 @@ void SJFScheduler::onProcessExecution(os_sim::PCB& process, [[maybe_unused]] std
 	using os_sim::global::g_pcbWaitLine;
 	using os_sim::global::g_isRunningProcess;
 	// -- Simulate process finalization
-	if (process.processClock.getElapsedTime().asSeconds() > process.minDuration_s && 1 == random::g_dist(random::g_rng)) {
+	if (process.cpuBurstSim.size() == 1 && process.cpuBurstClock.getElapsedTime().asSeconds() > process.cpuBurstSim.front() && 1 == random::g_dist(random::g_rng)) {
 		process.processState = os_sim::PCBState::Terminated;
 		process.totalExecutionTime = process.processClock.reset() + process.responseTime;								//	<-------- Turnaround
 		process.waitingTime = process.totalExecutionTime - process.totalBurstTime - process.totalWaitingTime;			//	<-------- Waiting Time
@@ -23,11 +23,13 @@ void SJFScheduler::onProcessExecution(os_sim::PCB& process, [[maybe_unused]] std
 		g_isRunningProcess = false;
 	}
 	// -- Simulate process waiting
-	else if (1 == random::g_dist(random::g_rng)) {
+	else if (os_sim::ifStartWaiting(process)) {
 		process.processState = os_sim::PCBState::Waiting;
 		sf::Time saveTime{ g_CPUBurstClock.restart() };
 		process.totalBurstTime += saveTime;
-		process.minWaitDuration_s = random::randomBetween(5, 15);
+		process.minWaitDuration_s = process.ioBurstSim.front();
+		process.cpuBurstSim.pop();
+		process.ioBurstSim.pop();
 
 		process.lastBurstTime_s = saveTime.asSeconds();
 		process.estimatedBurstTime_s = process.alpha * process.lastBurstTime_s + (1 - process.alpha) * process.estimatedBurstTime_s;
