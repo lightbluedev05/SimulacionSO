@@ -11,7 +11,7 @@
 
 namespace os_sim {
 	enum class PCBState { New, Ready, Running, Waiting, Terminated };
-	enum class Algorithm { FCFS, SJF, RoundRobin };
+	enum class Algorithm { FCFS, SJF, RoundRobin, StaticPriority, DynamicPriority};
 
 	struct PCB {
 		int pid{};
@@ -21,8 +21,8 @@ namespace os_sim {
 		float lastBurstTime_s{};
 		float alpha{ 0.5f };
 
-		// -- Round Robin Related
-
+		// -- Priority
+		int priority{ 0 };
 
 		// Simulation-Related
 		int minDuration_s{ 10 };	// Minimum Duration of process (in s)
@@ -54,13 +54,19 @@ namespace os_sim {
 
 		extern std::unique_ptr<IScheduler> g_scheduler;
 		extern int g_finishedProcesses;
+
+		extern sf::Time g_agingInterval;
 	}
 
 	// PCB Control Functions
-	void createPCB(std::queue<int> cpuBurst, std::queue<int> ioBurst, std::list<PCB>& pcbQueue);
-	void simulate(std::list<PCB>& pcbQueue);
+	void createPCB(std::queue<int> cpuBurst, std::queue<int> ioBurst, int priority, std::list<PCB>& pcbQueue);
+	bool simulate(std::list<PCB>& pcbQueue);
 	void simulateIOWaiting(std::list<PCB>& pcbQueue);
+	bool ifEnd(os_sim::PCB& process);
 
 	bool ifStartWaiting(PCB& process);
+	bool ifPriorityAlgorithm();
+
+	void simulateAging(std::list<PCB>& pcbQueue);
 }
 

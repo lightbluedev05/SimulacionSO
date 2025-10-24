@@ -33,10 +33,7 @@ void IScheduler::selectProcess(std::list<os_sim::PCB>& pcbQueue) {
 // --- Output Metrics to File ---
 
 void IScheduler::outputMetrics([[maybe_unused]] os_sim::PCB& process) {
-    static const std::string filename = "data/results.csv";
-
-    // If file doesn't exist, write header
-    std::ofstream outFile(filename, std::ios::app); // Open in append mode
+    std::ofstream outFile("data/results.csv", std::ios::app);
     if (!outFile.is_open()) return;
 
     outFile

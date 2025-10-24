@@ -39,6 +39,15 @@
     <ClCompile Include="src\rr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\s_priority.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="data\samples\static_priority.csv">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\d_priority.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\os_sim.h">
@@ -56,9 +65,18 @@
     <ClInclude Include="include\rr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\s_priority.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\d_priority.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\results.csv" />
     <None Include="data\input.csv" />
+    <None Include="data\samples\low_vs_high_duration.csv" />
+    <None Include="data\samples\high_vs_low_concurrency.csv" />
+    <None Include="data\samples\cpu_vs_io_bound.csv" />
   </ItemGroup>
 </Project>

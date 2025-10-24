@@ -151,7 +151,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="data\samples\static_priority.csv" />
     <ClCompile Include="include\sjf.h" />
+    <ClCompile Include="src\d_priority.cpp" />
     <ClCompile Include="src\fcfs.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\os_sim.cpp" />
@@ -159,17 +161,23 @@
     <ClCompile Include="src\rr.cpp" />
     <ClCompile Include="src\scheduler.cpp" />
     <ClCompile Include="src\sjf.cpp" />
+    <ClCompile Include="src\s_priority.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\d_priority.h" />
     <ClInclude Include="include\fcfs.h" />
     <ClInclude Include="include\os_sim.h" />
     <ClInclude Include="include\rng.h" />
     <ClInclude Include="include\rr.h" />
     <ClInclude Include="include\scheduler.h" />
+    <ClInclude Include="include\s_priority.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\input.csv" />
     <None Include="data\results.csv" />
+    <None Include="data\samples\cpu_vs_io_bound.csv" />
+    <None Include="data\samples\high_vs_low_concurrency.csv" />
+    <None Include="data\samples\low_vs_high_duration.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
