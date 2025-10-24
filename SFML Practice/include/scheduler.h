@@ -1,7 +1,7 @@
 #pragma once
 #include <list>
 
-#define OS_DEBUG
+//#define OS_DEBUG
 
 namespace os_sim {
 	struct PCB;

@@ -29,7 +29,7 @@ std::string generateUniqueFilename(const std::string& prefix, const std::string&
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
 
     std::tm tm_struct;
-    localtime_s(&tm_struct, &in_time_t);  // thread-safe version
+    localtime_s(&tm_struct, &in_time_t);
 
     std::stringstream ss;
     ss << prefix << "_"
@@ -74,7 +74,7 @@ int main()
 {
     using os_sim::global::g_currentAlgorithm;
     using os_sim::global::g_scheduler;
-    g_currentAlgorithm = os_sim::Algorithm::FCFS;
+    g_currentAlgorithm = os_sim::Algorithm::RoundRobin;
     switch (g_currentAlgorithm) {
     case os_sim::Algorithm::FCFS:
         g_scheduler = std::make_unique<FCFSScheduler>();
@@ -104,8 +104,8 @@ int main()
 
 #ifdef OS_GRAPH
     sf::RenderWindow window(sf::VideoMode({ 800,600 }), "Simulator");
-    window.setVerticalSyncEnabled(true);
-    //window.setFramerateLimit(10);
+    //window.setVerticalSyncEnabled(true);
+    window.setFramerateLimit(200);
 
     // Clock
 	sf::Clock simulationClock{};
