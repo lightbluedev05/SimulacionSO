@@ -131,5 +131,5 @@ Este proyecto fue desarrollado con fines **académicos** como parte del curso de
 
 ## 🌟 Créditos
 
-Proyecto académico 2025 – Facultad de Ingeniería de Sistemas
+Proyecto académico 2025 – Facultad de Ingeniería de Sistemas e Informática
 Universidad Nacional Mayor de San Marcos 🇵🇪
