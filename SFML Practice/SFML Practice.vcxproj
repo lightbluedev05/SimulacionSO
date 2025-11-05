@@ -138,16 +138,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)include\;$(ProjectDir)dependencies\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)dependencies\SFML\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-main-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -155,6 +155,7 @@
     <ClCompile Include="include\sjf.h" />
     <ClCompile Include="src\d_priority.cpp" />
     <ClCompile Include="src\fcfs.cpp" />
+    <ClCompile Include="src\interaction.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\os_sim.cpp" />
     <ClCompile Include="src\rng.cpp" />
@@ -162,17 +163,21 @@
     <ClCompile Include="src\scheduler.cpp" />
     <ClCompile Include="src\sjf.cpp" />
     <ClCompile Include="src\s_priority.cpp" />
+    <ClCompile Include="src\visualizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\d_priority.h" />
     <ClInclude Include="include\fcfs.h" />
+    <ClInclude Include="include\interaction.h" />
     <ClInclude Include="include\os_sim.h" />
     <ClInclude Include="include\rng.h" />
     <ClInclude Include="include\rr.h" />
     <ClInclude Include="include\scheduler.h" />
     <ClInclude Include="include\s_priority.h" />
+    <ClInclude Include="include\visualizer.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="data\config.csv" />
     <None Include="data\input.csv" />
     <None Include="data\results.csv" />
     <None Include="data\samples\cpu_vs_io_bound.csv" />

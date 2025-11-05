@@ -36,12 +36,21 @@ void IScheduler::outputMetrics([[maybe_unused]] os_sim::PCB& process) {
     std::ofstream outFile("data/results.csv", std::ios::app);
     if (!outFile.is_open()) return;
 
+	float turnaroundTime = process.totalExecutionTime.asSeconds();
+	float waitingTime = process.waitingTime.asSeconds();
+	float responseTime = process.responseTime.asSeconds();
+
     outFile
         << process.pid << ","
-        << process.totalExecutionTime.asSeconds() << ','
-        << process.waitingTime.asSeconds() << ','
-        << process.responseTime.asSeconds() << ','
+        << turnaroundTime << ','
+        << waitingTime << ','
+        << responseTime << ','
         << process.totalWaitingTime.asSeconds() << '\n';
 
     outFile.close();
+
+	using namespace os_sim::global;
+	gr_turnaroundTimeAvg += turnaroundTime;
+	gr_waitingTimeAvg += waitingTime;
+	gr_responseTimeAvg += responseTime;
 }

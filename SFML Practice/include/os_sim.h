@@ -17,7 +17,7 @@ namespace os_sim {
 		int pid{};
 		PCBState processState{ PCBState::New };
 		// -- SJF Related
-		float estimatedBurstTime_s{ 5.0f };
+		float estimatedBurstTime_s{ 1.0f };
 		float lastBurstTime_s{};
 		float alpha{ 0.5f };
 
@@ -47,6 +47,7 @@ namespace os_sim {
 		extern bool g_isRunningProcess;
 		extern PCB g_PCBCurrentlyRunning;
 		extern std::vector<PCB> g_pcbWaitLine;
+		extern std::list<PCB> g_finishedPCB;
 		extern Algorithm g_currentAlgorithm;
 
 		extern sf::Clock g_CPUBurstClock;
@@ -56,6 +57,12 @@ namespace os_sim {
 		extern int g_finishedProcesses;
 
 		extern sf::Time g_agingInterval;
+
+		extern sf::Font g_defaultFont;
+
+		extern float gr_turnaroundTimeAvg;
+		extern float gr_waitingTimeAvg;
+		extern float gr_responseTimeAvg;
 	}
 
 	// PCB Control Functions
@@ -68,5 +75,6 @@ namespace os_sim {
 	bool ifPriorityAlgorithm();
 
 	void simulateAging(std::list<PCB>& pcbQueue);
+	void resetAvg();
 }
 

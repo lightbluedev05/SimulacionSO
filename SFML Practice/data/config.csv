@@ -1,0 +1,4 @@
+Variable,Value
+g_currentAlgorithm,FCFS
+g_rrTimeQuantum,200
+g_agingInterval,2000

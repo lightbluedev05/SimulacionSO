@@ -37,7 +37,7 @@ void RRScheduler::onProcessExecution(os_sim::PCB& process, [[maybe_unused]] std:
 	if (os_sim::ifEnd(process)) {
 		process.processState = os_sim::PCBState::Terminated;
 		process.totalExecutionTime = process.processClock.reset() + process.responseTime;							//	<-------- Turnaround
-		process.waitingTime = process.totalExecutionTime - process.totalBurstTime - -process.totalWaitingTime;		//	<-------- Waiting Time
+		process.waitingTime = process.totalExecutionTime - process.totalBurstTime - process.totalWaitingTime;		//	<-------- Waiting Time
 
 #ifdef OS_DEBUG
 		std::cout << "\n [PROCESS " << process.pid << "]\tTerminated after " << process.totalExecutionTime.asSeconds() << "s.";

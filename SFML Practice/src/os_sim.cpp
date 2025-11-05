@@ -16,6 +16,7 @@ namespace os_sim {
 		bool g_isRunningProcess{ false };
 		PCB g_PCBCurrentlyRunning{};
 		std::vector<PCB> g_pcbWaitLine{};
+		std::list<PCB> g_finishedPCB{};
 		Algorithm g_currentAlgorithm{};
 		sf::Clock g_CPUBurstClock{};
 		sf::Time g_rrTimeQuantum{ sf::milliseconds(50) };
@@ -24,19 +25,26 @@ namespace os_sim {
 		int g_finishedProcesses{ 0 };
 
 		sf::Time g_agingInterval{ sf::milliseconds(200) };
+
+		sf::Font g_defaultFont{ "resources/ARIAL.TTF" };
+
+		float gr_turnaroundTimeAvg{};
+		float gr_waitingTimeAvg{};
+		float gr_responseTimeAvg{};
 	}
 }
 
 // -------------------------------- Helper Functions --------------------------------
 void os_sim::createPCB(std::queue<int> cpuBurst, std::queue<int> ioBurst, int priority, std::list<PCB>& pcbQueue) {
 	static unsigned int g_pcbIdAssign{ 0 };
+	if (pcbQueue.empty()) g_pcbIdAssign = 0;
 	// Assign Phase
 	os_sim::PCB newPCB{};
 	newPCB.pid = ++g_pcbIdAssign;
 	newPCB.processState = os_sim::PCBState::New;
 	newPCB.cpuBurstSim = cpuBurst;
 	newPCB.ioBurstSim = ioBurst;
-	newPCB.processClock.restart();
+	newPCB.processClock.reset();
 	newPCB.ioBurstClock.reset();
 	newPCB.cpuBurstClock.reset();
 	newPCB.priority = priority;
@@ -60,11 +68,7 @@ bool os_sim::ifEnd(os_sim::PCB& process) {
 
 // -------------------------------- Main Simulator Function Block --------------------------------
 bool os_sim::simulate(std::list<os_sim::PCB>& pcbQueue) {
-	using os_sim::global::g_scheduler;
-	using os_sim::global::g_isRunningProcess;
-	using os_sim::global::g_PCBCurrentlyRunning;
-	using os_sim::global::g_pcbWaitLine;
-	using os_sim::global::g_finishedProcesses;
+	using namespace os_sim::global;
 	if (!g_scheduler) return true;
 
 	if (!g_pcbWaitLine.empty()) simulateIOWaiting(pcbQueue);
@@ -80,7 +84,9 @@ bool os_sim::simulate(std::list<os_sim::PCB>& pcbQueue) {
 	else g_scheduler->onProcessExecution(g_PCBCurrentlyRunning, pcbQueue);
 	if (g_PCBCurrentlyRunning.processState == os_sim::PCBState::Terminated) {
 		g_scheduler->outputMetrics(g_PCBCurrentlyRunning);
+		g_finishedPCB.push_back(g_PCBCurrentlyRunning);
 		++g_finishedProcesses;
+
 		if (g_pcbWaitLine.empty() && pcbQueue.empty()) return true;
 	}
 
@@ -114,7 +120,7 @@ void os_sim::simulateAging(std::list<os_sim::PCB>& pcbQueue) {
 	using os_sim::global::g_agingInterval;
 
 	for (auto& process : pcbQueue) {
-		if (process.processState != os_sim::PCBState::Ready) continue;
+		//if (process.processState != os_sim::PCBState::Ready) continue;
 		if (process.ioBurstClock.getElapsedTime() >= g_agingInterval) {
 			if (process.priority > 0) {
 				process.priority--;
@@ -122,7 +128,15 @@ void os_sim::simulateAging(std::list<os_sim::PCB>& pcbQueue) {
 				std::cout << "\n [AGING]\tProcess " << process.pid << " priority increased to " << process.priority;
 #endif
 			}
-			process.processClock.restart();
+			process.ioBurstClock.restart();
 		}
 	}
+}
+
+void os_sim::resetAvg() {
+	using namespace os_sim::global;
+	g_finishedProcesses = 0;
+	gr_turnaroundTimeAvg = 0.f;
+	gr_waitingTimeAvg = 0.f;
+	gr_responseTimeAvg = 0.f;
 }
